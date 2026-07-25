@@ -7,18 +7,40 @@ const LOCAL_DEC_KEY = 'SETIAJAYA_TOYOTA_DEC_DATA';
 const LOCAL_SVC_KEY = 'SETIAJAYA_TOYOTA_SVC_DATA';
 
 export function getAPIConfig(): APIConfig {
+  const metaEnv = (import.meta as any).env || {};
+  const envUrl = (
+    metaEnv.VITE_GOOGLE_APP_SCRIPT_URL ||
+    metaEnv.VITE_WEB_APP_URL ||
+    metaEnv.VITE_GAS_URL ||
+    metaEnv.VITE_APPS_SCRIPT_URL ||
+    metaEnv.VITE_GOOGLE_SCRIPT_URL ||
+    (typeof process !== 'undefined' && process.env ? (
+      process.env.GOOGLE_APP_SCRIPT_URL ||
+      process.env.WEB_APP_URL ||
+      process.env.GAS_URL ||
+      process.env.APPS_SCRIPT_URL ||
+      ''
+    ) : '') ||
+    ''
+  ).trim();
+
   try {
     const saved = localStorage.getItem(CONFIG_STORAGE_KEY);
     if (saved) {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      if ((!parsed.webAppUrl || parsed.webAppUrl.trim() === '') && envUrl) {
+        parsed.webAppUrl = envUrl;
+      }
+      return parsed;
     }
   } catch (e) {
     console.warn('Failed to read API config from localStorage:', e);
   }
+
   return {
-    webAppUrl: '', // Can be set in UI Settings
+    webAppUrl: envUrl,
     useLocalStorageFallback: true,
-    spreadsheetId: '1hFjw0SOG2Y32pO6H3PkLnHJxBbLrnP7p'
+    spreadsheetId: metaEnv.VITE_SPREADSHEET_ID || '1hFjw0SOG2Y32pO6H3PkLnHJxBbLrnP7p'
   };
 }
 
