@@ -170,30 +170,30 @@ export const ReminderTable: React.FC<ReminderTableProps> = ({ reminders, loading
       <div className="overflow-x-auto min-h-96">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="bg-slate-100/80 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('vin')}>
+            <tr className="bg-slate-900 text-white font-extrabold uppercase tracking-wider">
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('vin')}>
                 <div className="flex items-center gap-1">VIN <ArrowUpDown size={12} /></div>
               </th>
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('no_polisi')}>
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('no_polisi')}>
                 <div className="flex items-center gap-1">No. Polisi <ArrowUpDown size={12} /></div>
               </th>
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('nama_customer')}>
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('nama_customer')}>
                 <div className="flex items-center gap-1">Customer <ArrowUpDown size={12} /></div>
               </th>
               <th className="p-3.5">Tipe Kendaraan</th>
               <th className="p-3.5">KM Terakhir</th>
               <th className="p-3.5">Service Terakhir</th>
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('jadwal_berikutnya')}>
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('jadwal_berikutnya')}>
                 <div className="flex items-center gap-1">Jadwal Berikutnya <ArrowUpDown size={12} /></div>
               </th>
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('selisih_hari')}>
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('selisih_hari')}>
                 <div className="flex items-center gap-1">Selisih <ArrowUpDown size={12} /></div>
               </th>
               <th className="p-3.5">Status</th>
               <th className="p-3.5 text-center">Aksi WA</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-200">
             {loading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i} className="animate-pulse">
@@ -220,18 +220,18 @@ export const ReminderTable: React.FC<ReminderTableProps> = ({ reminders, loading
                 );
 
                 return (
-                  <tr key={row.vin} className="hover:bg-blue-50/40 transition-colors">
+                  <tr key={row.vin} className="hover:bg-slate-100/80 transition-colors">
                     <td className="p-3.5 font-mono font-bold text-slate-900">{row.vin}</td>
-                    <td className="p-3.5 font-semibold text-blue-900">{row.no_polisi}</td>
-                    <td className="p-3.5 font-bold text-slate-800">
+                    <td className="p-3.5 font-bold text-slate-950">{row.no_polisi}</td>
+                    <td className="p-3.5 font-black text-slate-950">
                       {row.nama_customer}
-                      <div className="text-[10px] font-normal text-slate-500">{row.no_hp || '-'}</div>
+                      <div className="text-[10px] font-medium text-slate-600">{row.no_hp || '-'}</div>
                     </td>
-                    <td className="p-3.5 text-slate-700 font-medium">{row.tipe_kendaraan}</td>
-                    <td className="p-3.5 text-slate-700 font-semibold">{row.km_terakhir} KM</td>
-                    <td className="p-3.5 text-slate-600">{formatDateIndonesian(row.service_terakhir)}</td>
-                    <td className="p-3.5 font-bold text-slate-900">{formatDateIndonesian(row.jadwal_berikutnya)}</td>
-                    <td className="p-3.5 font-black text-slate-800">
+                    <td className="p-3.5 text-slate-900 font-semibold">{row.tipe_kendaraan}</td>
+                    <td className="p-3.5 text-slate-900 font-bold">{row.km_terakhir} KM</td>
+                    <td className="p-3.5 text-slate-800 font-medium">{formatDateIndonesian(row.service_terakhir)}</td>
+                    <td className="p-3.5 font-black text-slate-950">{formatDateIndonesian(row.jadwal_berikutnya)}</td>
+                    <td className="p-3.5 font-black text-slate-900">
                       {row.selisih_hari < 0
                         ? `${Math.abs(row.selisih_hari)} hari terlambat`
                         : row.selisih_hari === 0

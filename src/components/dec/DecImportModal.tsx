@@ -122,19 +122,19 @@ export const DecImportModal: React.FC<DecImportModalProps> = ({
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-4xl overflow-hidden my-8 flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="bg-[#001E50] text-white p-5 flex items-center justify-between flex-shrink-0">
+        <div className="bg-[#0B192C] text-white p-5 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2.5">
-            <Upload size={20} className="text-blue-300" />
+            <Upload size={20} className="text-slate-300" />
             <div>
               <h3 className="text-base font-bold">Import Data DEC (CSV / Excel)</h3>
-              <p className="text-xs text-blue-200">
+              <p className="text-xs text-slate-300">
                 Unggah berkas CSV/XLSX untuk menambahkan data DEC secara otomatis
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-blue-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -144,18 +144,18 @@ export const DecImportModal: React.FC<DecImportModalProps> = ({
         <div className="p-6 flex-1 overflow-y-auto space-y-6">
           {/* Step Indicators */}
           <div className="flex items-center justify-center gap-4 border-b border-slate-200 pb-4">
-            <div className={`flex items-center gap-2 text-xs font-bold ${step === 1 ? 'text-blue-900' : 'text-slate-400'}`}>
-              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 1 ? 'bg-blue-900 text-white' : 'bg-slate-200 text-slate-600'}`}>1</span>
+            <div className={`flex items-center gap-2 text-xs font-bold ${step === 1 ? 'text-slate-950' : 'text-slate-400'}`}>
+              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 1 ? 'bg-[#0B192C] text-white font-bold' : 'bg-slate-200 text-slate-600'}`}>1</span>
               File & Preview
             </div>
             <ArrowRight size={14} className="text-slate-300" />
-            <div className={`flex items-center gap-2 text-xs font-bold ${step === 2 ? 'text-blue-900' : 'text-slate-400'}`}>
-              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 2 ? 'bg-blue-900 text-white' : 'bg-slate-200 text-slate-600'}`}>2</span>
+            <div className={`flex items-center gap-2 text-xs font-bold ${step === 2 ? 'text-slate-950' : 'text-slate-400'}`}>
+              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 2 ? 'bg-[#0B192C] text-white font-bold' : 'bg-slate-200 text-slate-600'}`}>2</span>
               Header Mapping
             </div>
             <ArrowRight size={14} className="text-slate-300" />
-            <div className={`flex items-center gap-2 text-xs font-bold ${step === 3 ? 'text-blue-900' : 'text-slate-400'}`}>
-              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 3 ? 'bg-blue-900 text-white' : 'bg-slate-200 text-slate-600'}`}>3</span>
+            <div className={`flex items-center gap-2 text-xs font-bold ${step === 3 ? 'text-slate-950' : 'text-slate-400'}`}>
+              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${step === 3 ? 'bg-[#0B192C] text-white font-bold' : 'bg-slate-200 text-slate-600'}`}>3</span>
               Hasil Import
             </div>
           </div>
@@ -172,16 +172,16 @@ export const DecImportModal: React.FC<DecImportModalProps> = ({
                       handleFileSelect(e.dataTransfer.files[0]);
                     }
                   }}
-                  className="border-2 border-dashed border-blue-300 bg-blue-50/40 rounded-2xl p-10 text-center flex flex-col items-center justify-center hover:bg-blue-50/80 transition-colors cursor-pointer"
+                  className="border-2 border-dashed border-slate-300 bg-slate-50/60 rounded-2xl p-10 text-center flex flex-col items-center justify-center hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  <FileSpreadsheet size={48} className="text-blue-600 mb-3" />
+                  <FileSpreadsheet size={48} className="text-slate-800 mb-3" />
                   <h4 className="text-sm font-bold text-slate-900 mb-1">
                     Tarik & Lepas File CSV / Excel (.xlsx, .xls) di sini
                   </h4>
                   <p className="text-xs text-slate-500 mb-4">
                     Atau klik tombol di bawah untuk memilih file dari perangkat Anda
                   </p>
-                  <label className="px-5 py-2.5 rounded-xl bg-blue-900 text-white text-xs font-bold cursor-pointer hover:bg-blue-800 shadow-xs">
+                  <label className="px-5 py-2.5 rounded-xl bg-[#0B192C] text-white text-xs font-bold cursor-pointer hover:bg-slate-800 shadow-xs">
                     Pilih File
                     <input
                       type="file"
@@ -363,7 +363,7 @@ export const DecImportModal: React.FC<DecImportModalProps> = ({
             {step === 1 && file && (
               <button
                 onClick={() => setStep(2)}
-                className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-blue-900 text-white text-xs font-bold hover:bg-blue-800 cursor-pointer shadow-xs"
+                className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#0B192C] text-white text-xs font-bold hover:bg-slate-800 cursor-pointer shadow-xs"
               >
                 Lanjut Mapping <ArrowRight size={14} />
               </button>

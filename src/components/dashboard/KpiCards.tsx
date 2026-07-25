@@ -20,8 +20,8 @@ export const KpiCards: React.FC<KpiCardsProps> = ({ kpis }) => {
       value: kpis.totalUnitDEC,
       unit: 'Unit',
       icon: Car,
-      color: 'bg-blue-500/10 text-blue-700 border-blue-200',
-      iconBg: 'bg-blue-600 text-white',
+      color: 'bg-slate-100 text-slate-800 border-slate-200',
+      iconBg: 'bg-[#0B192C] text-white',
       desc: 'Sertifikat Delivery & Sales'
     },
     {
@@ -81,7 +81,7 @@ export const KpiCards: React.FC<KpiCardsProps> = ({ kpis }) => {
             className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group"
           >
             <div className="flex items-start justify-between">
-              <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
+              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">
                 {card.title}
               </span>
               <div className={`p-2.5 rounded-xl ${card.iconBg} shadow-xs`}>
@@ -91,14 +91,14 @@ export const KpiCards: React.FC<KpiCardsProps> = ({ kpis }) => {
 
             <div className="mt-3">
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl font-black text-slate-900 tracking-tight">
+                <span className="text-2xl font-black text-slate-950 tracking-tight">
                   {card.value.toLocaleString('id-ID')}
                 </span>
-                <span className="text-xs font-semibold text-slate-500">
+                <span className="text-xs font-bold text-slate-600">
                   {card.unit}
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 mt-1 truncate">
+              <p className="text-[11px] font-medium text-slate-600 mt-1 truncate">
                 {card.desc}
               </p>
             </div>

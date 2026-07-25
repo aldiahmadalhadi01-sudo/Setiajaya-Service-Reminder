@@ -81,10 +81,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <motion.aside
         animate={{ width: collapsed ? 80 : 280 }}
         transition={{ duration: 0.25, ease: 'easeInOut' }}
-        className="hidden md:flex relative flex-col h-screen bg-[#001E50] text-white border-r border-blue-900/40 shadow-2xl z-30 select-none flex-shrink-0"
+        className="hidden md:flex relative flex-col h-screen bg-[#0B192C] text-white border-r border-slate-800 shadow-2xl z-30 select-none flex-shrink-0"
       >
         {/* Brand Header */}
-        <div className="p-4 flex items-center justify-between border-b border-blue-900/50 h-16">
+        <div className="p-4 flex items-center justify-between border-b border-slate-800 h-16">
           <div className="flex items-center gap-3 overflow-hidden">
             <div className="w-10 h-10 rounded-xl bg-white/10 p-1 flex items-center justify-center border border-white/20 flex-shrink-0 overflow-hidden shadow-inner">
               <img
@@ -116,7 +116,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <span className="text-white">SETIAJAYA</span>{' '}
                   <span className="text-[#EB0A1E]">TOYOTA</span>
                 </div>
-                <span className="text-[10px] text-blue-200 tracking-wider uppercase font-semibold mt-1">
+                <span className="text-[10px] text-slate-300 tracking-wider uppercase font-semibold mt-1">
                   Service Analytics
                 </span>
               </motion.div>
@@ -125,7 +125,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-lg bg-blue-900/40 text-blue-200 hover:text-white hover:bg-blue-800/60 transition-all cursor-pointer"
+            className="p-1.5 rounded-lg bg-slate-800/80 text-slate-200 hover:text-white hover:bg-slate-700 transition-all cursor-pointer border border-slate-700/50"
             title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
           >
             {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
@@ -144,14 +144,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => handleTabClick(item.id)}
                 className={`w-full flex items-center gap-3.5 px-3.5 py-3 rounded-xl font-medium text-sm transition-all cursor-pointer group ${
                   isActive
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-600/30'
-                    : 'text-blue-200 hover:bg-blue-900/40 hover:text-white'
+                    ? 'bg-slate-800 text-white font-bold border border-slate-700/80 shadow-md'
+                    : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
                 }`}
               >
                 <Icon
                   size={20}
                   className={`${
-                    isActive ? 'text-white' : 'text-blue-300 group-hover:text-white'
+                    isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
                   } transition-colors flex-shrink-0`}
                 />
                 {!collapsed && (
@@ -162,7 +162,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                           isActive
                             ? 'bg-white/20 text-white'
-                            : 'bg-blue-800/80 text-blue-200'
+                            : 'bg-slate-800 text-slate-300 border border-slate-700'
                         }`}
                       >
                         {item.badge}
@@ -176,9 +176,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Connection & Footer Status */}
-        <div className="p-3 border-t border-blue-900/50 bg-blue-950/40">
+        <div className="p-3 border-t border-slate-800 bg-slate-950/80">
           {!collapsed ? (
-            <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-blue-900/30 border border-blue-800/40">
+            <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-slate-900 border border-slate-800">
               <div
                 className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${
                   isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
@@ -188,7 +188,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 <span className="font-semibold text-white truncate">
                   {isConnected ? 'Google Sheet Active' : 'Local Data Mode'}
                 </span>
-                <span className="text-[10px] text-blue-300 truncate">
+                <span className="text-[10px] text-slate-400 truncate">
                   {isConnected ? 'Syncing with GAS REST API' : 'Direct Local Cache'}
                 </span>
               </div>

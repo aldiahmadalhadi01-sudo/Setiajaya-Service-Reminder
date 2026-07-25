@@ -109,19 +109,19 @@ export const AppsScriptModal: React.FC<AppsScriptModalProps> = ({
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-4xl overflow-hidden my-8 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="bg-[#001E50] text-white p-5 flex items-center justify-between flex-shrink-0">
+        <div className="bg-[#0B192C] text-white p-5 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2.5">
-            <Code2 size={22} className="text-blue-300" />
+            <Code2 size={22} className="text-slate-300" />
             <div>
               <h3 className="text-base font-bold">Google Apps Script REST API Backend (code.gs)</h3>
-              <p className="text-xs text-blue-200">
+              <p className="text-xs text-slate-300">
                 Salin kode backend, paste di script.google.com & set Spreadsheet ID
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-blue-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>

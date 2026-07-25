@@ -155,16 +155,16 @@ export const ServiceCallFormModal: React.FC<ServiceCallFormModalProps> = ({
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-4xl overflow-hidden my-8 flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="bg-[#001E50] text-white p-5 flex items-center justify-between flex-shrink-0">
+        <div className="bg-[#0B192C] text-white p-5 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2.5">
-            <Wrench size={20} className="text-blue-300" />
+            <Wrench size={20} className="text-slate-300" />
             <h3 className="text-base font-bold">
               {initialData ? 'Edit Service Call Record' : 'Input Data Service Call Baru (46 Header)'}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-blue-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -177,8 +177,8 @@ export const ServiceCallFormModal: React.FC<ServiceCallFormModalProps> = ({
             onClick={() => setActiveTab('customer')}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-t-xl border-t border-x transition-all cursor-pointer ${
               activeTab === 'customer'
-                ? 'bg-white text-blue-900 border-slate-200 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-900 border-transparent'
+                ? 'bg-white text-slate-950 border-slate-200 shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900 border-transparent'
             }`}
           >
             <User size={14} /> Data Customer & Domisili
@@ -188,8 +188,8 @@ export const ServiceCallFormModal: React.FC<ServiceCallFormModalProps> = ({
             onClick={() => setActiveTab('vehicle')}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-t-xl border-t border-x transition-all cursor-pointer ${
               activeTab === 'vehicle'
-                ? 'bg-white text-blue-900 border-slate-200 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-900 border-transparent'
+                ? 'bg-white text-slate-950 border-slate-200 shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900 border-transparent'
             }`}
           >
             <Car size={14} /> Data Kendaraan & VIN
@@ -199,8 +199,8 @@ export const ServiceCallFormModal: React.FC<ServiceCallFormModalProps> = ({
             onClick={() => setActiveTab('service')}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-t-xl border-t border-x transition-all cursor-pointer ${
               activeTab === 'service'
-                ? 'bg-white text-blue-900 border-slate-200 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-900 border-transparent'
+                ? 'bg-white text-slate-950 border-slate-200 shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900 border-transparent'
             }`}
           >
             <Wrench size={14} /> Pekerjaan & SA
@@ -210,8 +210,8 @@ export const ServiceCallFormModal: React.FC<ServiceCallFormModalProps> = ({
             onClick={() => setActiveTab('invoice')}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-t-xl border-t border-x transition-all cursor-pointer ${
               activeTab === 'invoice'
-                ? 'bg-white text-blue-900 border-slate-200 shadow-2xs'
-                : 'text-slate-500 hover:text-slate-900 border-transparent'
+                ? 'bg-white text-slate-950 border-slate-200 shadow-2xs'
+                : 'text-slate-600 hover:text-slate-900 border-transparent'
             }`}
           >
             <FileText size={14} /> SO, Invoice & Next Service
@@ -399,7 +399,7 @@ export const ServiceCallFormModal: React.FC<ServiceCallFormModalProps> = ({
             <button
               type="submit"
               disabled={submitting}
-              className="flex items-center gap-1.5 px-6 py-2 rounded-xl bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold shadow-xs cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 px-6 py-2 rounded-xl bg-[#0B192C] hover:bg-slate-800 text-white text-xs font-bold shadow-xs cursor-pointer disabled:opacity-50"
             >
               <Save size={14} /> {submitting ? 'Menyimpan...' : 'Simpan Service Call'}
             </button>

@@ -64,11 +64,13 @@ export const RingAreaChart: React.FC<RingAreaChartProps> = ({ data }) => {
               contentStyle={{
                 backgroundColor: '#0F172A',
                 borderRadius: '12px',
-                color: '#fff',
+                color: '#ffffff',
                 border: 'none',
                 boxShadow: '0 10px 15px -3px rgba(0,0,0,0.3)',
                 fontSize: '12px'
               }}
+              itemStyle={{ color: '#ffffff', fontWeight: 600 }}
+              labelStyle={{ fontWeight: 'bold', color: '#ffffff' }}
               formatter={(val: any, name: any) => [
                 `${val} Unit (${Math.round((val / (totalUnits || 1)) * 100)}%)`,
                 name

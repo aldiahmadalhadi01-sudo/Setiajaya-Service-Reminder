@@ -108,16 +108,16 @@ export const DecFormModal: React.FC<DecFormModalProps> = ({
     <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-2xl overflow-hidden my-8">
         {/* Header */}
-        <div className="bg-[#001E50] text-white p-5 flex items-center justify-between">
+        <div className="bg-[#0B192C] text-white p-5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <FileSpreadsheet size={20} className="text-blue-300" />
+            <FileSpreadsheet size={20} className="text-slate-300" />
             <h3 className="text-base font-bold">
               {initialData ? 'Edit Data DEC' : 'Tambah Data Delivery Certificate (DEC)'}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-blue-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -296,7 +296,7 @@ export const DecFormModal: React.FC<DecFormModalProps> = ({
             <button
               type="submit"
               disabled={submitting}
-              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold shadow-xs cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-[#0B192C] hover:bg-slate-800 text-white text-xs font-bold shadow-xs cursor-pointer disabled:opacity-50"
             >
               <Save size={14} /> {submitting ? 'Menyimpan...' : 'Simpan Data'}
             </button>

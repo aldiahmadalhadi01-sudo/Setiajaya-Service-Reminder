@@ -118,10 +118,10 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
       <div className="p-5 border-b border-slate-200/80 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <Wrench className="text-blue-600" size={20} />
+            <Wrench className="text-slate-800" size={20} />
             Data Activity Service Call (46 Column Enterprise)
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-600 mt-0.5 font-medium">
             Manajemen lengkap histori service, SA, keluhan, dan billing kendaraan
           </p>
         </div>
@@ -138,27 +138,27 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              className="pl-9 pr-4 py-2 bg-white rounded-xl border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 w-56 shadow-2xs"
+              className="pl-9 pr-4 py-2 bg-white rounded-xl border border-slate-300 text-xs text-slate-900 font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-800 w-56 shadow-2xs"
             />
           </div>
 
           <button
             onClick={onOpenImport}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all cursor-pointer border border-slate-200"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-900 text-xs font-bold transition-all cursor-pointer border border-slate-300"
           >
             <Upload size={14} /> Import Data
           </button>
 
           <button
             onClick={onAdd}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-900 hover:bg-blue-800 text-white text-xs font-bold transition-all cursor-pointer shadow-xs"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0B192C] hover:bg-slate-800 text-white text-xs font-bold transition-all cursor-pointer shadow-xs"
           >
             <Plus size={16} /> Tambah Service Call
           </button>
 
           <button
             onClick={() => exportToCSV('ServiceCall_Data_Toyota', filteredData)}
-            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer"
+            className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all cursor-pointer border border-slate-200"
             title="Export CSV"
           >
             <Download size={14} />
@@ -170,16 +170,16 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
       <div className="overflow-x-auto min-h-96">
         <table className="w-full text-left text-xs border-collapse">
           <thead>
-            <tr className="bg-slate-100/80 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('tanggal_invoice')}>
+            <tr className="bg-slate-900 text-white font-extrabold uppercase tracking-wider">
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('tanggal_invoice')}>
                 <div className="flex items-center gap-1">Tgl Invoice <ArrowUpDown size={12} /></div>
               </th>
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('no_invoice')}>
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('no_invoice')}>
                 <div className="flex items-center gap-1">No Invoice <ArrowUpDown size={12} /></div>
               </th>
               <th className="p-3.5">No. Polisi</th>
               <th className="p-3.5">Customer</th>
-              <th className="p-3.5 cursor-pointer hover:bg-slate-200/60" onClick={() => handleSort('vin')}>
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('vin')}>
                 <div className="flex items-center gap-1">VIN <ArrowUpDown size={12} /></div>
               </th>
               <th className="p-3.5">KM Service</th>
@@ -189,7 +189,7 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
               <th className="p-3.5 text-center">Aksi</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-200">
             {loading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={i} className="animate-pulse">
@@ -206,28 +206,28 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
               </tr>
             ) : (
               paginatedData.map((row) => (
-                <tr key={row.id || row.no_invoice} className="hover:bg-blue-50/40 transition-colors">
+                <tr key={row.id || row.no_invoice} className="hover:bg-slate-100/80 transition-colors">
                   <td className="p-3.5 font-bold text-slate-900">{formatDateIndonesian(row.tanggal_invoice || row.tanggal_entry)}</td>
-                  <td className="p-3.5 font-mono font-bold text-blue-900">{row.no_invoice}</td>
+                  <td className="p-3.5 font-mono font-black text-slate-950">{row.no_invoice}</td>
                   <td className="p-3.5 font-mono font-bold text-slate-900">{row.no_polisi}</td>
-                  <td className="p-3.5 font-bold text-slate-800">{row.nama_customer}</td>
-                  <td className="p-3.5 font-mono font-semibold text-slate-700">{row.vin}</td>
-                  <td className="p-3.5 font-bold text-slate-800">{row.km_service} KM</td>
-                  <td className="p-3.5 text-slate-700 font-medium">{row.service_advisor}</td>
-                  <td className="p-3.5 text-slate-700">{row.jenis_pekerjaan}</td>
-                  <td className="p-3.5 font-bold text-emerald-700">{formatCurrencyIDR(row.estimasi_harga)}</td>
+                  <td className="p-3.5 font-black text-slate-950">{row.nama_customer}</td>
+                  <td className="p-3.5 font-mono font-bold text-slate-800">{row.vin}</td>
+                  <td className="p-3.5 font-bold text-slate-900">{row.km_service} KM</td>
+                  <td className="p-3.5 text-slate-800 font-medium">{row.service_advisor}</td>
+                  <td className="p-3.5 text-slate-800">{row.jenis_pekerjaan}</td>
+                  <td className="p-3.5 font-black text-emerald-700">{formatCurrencyIDR(row.estimasi_harga)}</td>
                   <td className="p-3.5 text-center">
                     <div className="flex items-center justify-center gap-1.5">
                       <button
                         onClick={() => onEdit(row)}
-                        className="p-1.5 rounded-lg text-slate-600 hover:text-blue-900 hover:bg-blue-100 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-lg text-slate-700 hover:text-slate-950 hover:bg-slate-200 transition-colors cursor-pointer"
                         title="Edit Record"
                       >
                         <Edit size={15} />
                       </button>
                       <button
                         onClick={() => handleDeleteConfirm(row)}
-                        className="p-1.5 rounded-lg text-slate-600 hover:text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
+                        className="p-1.5 rounded-lg text-slate-700 hover:text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
                         title="Hapus Record"
                       >
                         <Trash2 size={15} />

@@ -68,25 +68,23 @@ export const TopNavbar: React.FC<TopNavbarProps> = ({
           />
         </div>
 
-        <h1 className="text-sm sm:text-lg md:text-xl font-bold text-slate-800 tracking-tight truncate">
+        <h1 className="text-sm sm:text-lg md:text-xl font-extrabold text-slate-900 tracking-tight truncate">
           {getTabTitle()}
         </h1>
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
         {/* Date Display */}
-        <div className="hidden lg:flex items-center gap-2 text-xs text-slate-600 bg-slate-100/80 px-3 py-1.5 rounded-lg font-medium">
-          <Calendar size={14} className="text-slate-500" />
+        <div className="hidden lg:flex items-center gap-2 text-xs text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg font-semibold border border-slate-200">
+          <Calendar size={14} className="text-slate-600" />
           <span>{formattedDate}</span>
         </div>
-
-
 
         {/* Manual Data Refresh Trigger */}
         <button
           onClick={onRefresh}
           disabled={refreshing}
-          className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-[#001E50] text-white hover:bg-blue-900 text-xs font-semibold transition-all shadow-xs cursor-pointer disabled:opacity-50"
+          className="flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-[#0B192C] text-white hover:bg-slate-800 text-xs font-bold transition-all shadow-xs cursor-pointer disabled:opacity-50"
           title="Refresh Data Spreadsheet Realtime"
         >
           <RefreshCw size={14} className={`flex-shrink-0 ${refreshing ? 'animate-spin' : ''}`} />

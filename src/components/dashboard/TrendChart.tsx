@@ -363,13 +363,14 @@ export const TrendChart: React.FC<TrendChartProps> = ({
               contentStyle={{
                 backgroundColor: '#0F172A',
                 borderRadius: '12px',
-                color: '#fff',
+                color: '#ffffff',
                 border: 'none',
                 boxShadow: '0 10px 15px -3px rgba(0,0,0,0.3)',
                 fontSize: '12px'
               }}
+              itemStyle={{ color: '#ffffff', fontWeight: 600 }}
+              labelStyle={{ fontWeight: 'bold', color: '#ffffff' }}
               formatter={(val: any) => [`${val} Service`, 'Total']}
-              labelStyle={{ fontWeight: 'bold', color: '#94A3B8' }}
             />
             <Area
               type="monotone"
