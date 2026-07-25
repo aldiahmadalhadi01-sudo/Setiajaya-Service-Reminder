@@ -1,0 +1,6 @@
+{
+  "name": "SETIAJAYA TOYOTA SERVICE ANALYTICS & REMINDER SYSTEM",
+  "description": "Enterprise Toyota Service Analytics, Periodic Service Reminder System, Vehicle History, DEC & Service Call Management integrated with Google Spreadsheet & Apps Script.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
