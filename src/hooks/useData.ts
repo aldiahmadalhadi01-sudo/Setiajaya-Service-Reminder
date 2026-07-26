@@ -86,7 +86,9 @@ export function useData() {
     const counts: Record<string, number> = {};
 
     serviceCallList.forEach(s => {
-      const dateStr = s.tanggal_entry || s.tanggal_invoice || s.tanggal_so;
+      const dateStr = (s.tanggal_entry && String(s.tanggal_entry).trim()) 
+        ? String(s.tanggal_entry).trim() 
+        : (s.tanggal_invoice || s.tanggal_so);
       if (!dateStr) return;
 
       let key = dateStr;

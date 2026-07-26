@@ -509,7 +509,7 @@ var ReminderEngine = {
     svcs.forEach(function(s) {
       if (!s.vin) return;
       var existing = latestSvcByVin[s.vin];
-      if (!existing || new Date(s.tanggal_invoice || s.tanggal_entry) > new Date(existing.tanggal_invoice || existing.tanggal_entry)) {
+      if (!existing || new Date(s.tanggal_entry || s.tanggal_invoice) > new Date(existing.tanggal_entry || existing.tanggal_invoice)) {
         latestSvcByVin[s.vin] = s;
       }
     });
@@ -547,7 +547,7 @@ var ReminderEngine = {
         no_hp: dec.phone_customer || (latest ? latest.no_hp : ""),
         tipe_kendaraan: dec.tipe_kendaraan,
         km_terakhir: latest ? latest.km_service : "1.000 (DEC)",
-        service_terakhir: latest ? latest.tanggal_invoice : dec.tanggal_dec,
+        service_terakhir: latest ? (latest.tanggal_entry || latest.tanggal_invoice) : dec.tanggal_dec,
         jadwal_berikutnya: formatDate(targetDate),
         selisih_hari: daysDiff,
         status: status,
@@ -568,7 +568,7 @@ var HistoryEngine = {
     var svcs = CRUDEngine.getServiceCallList();
     if (targetVin) {
       return svcs.filter(function(s) { return s.vin === targetVin; })
-                 .sort(function(a, b) { return new Date(b.tanggal_invoice) - new Date(a.tanggal_invoice); });
+                 .sort(function(a, b) { return new Date(b.tanggal_entry || b.tanggal_invoice) - new Date(a.tanggal_entry || a.tanggal_invoice); });
     }
 
     // Return grouped vehicle summaries

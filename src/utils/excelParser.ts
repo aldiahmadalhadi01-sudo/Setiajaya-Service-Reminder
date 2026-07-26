@@ -180,6 +180,7 @@ export function validateAndProcessServiceCallImport(
     const vinRaw = String(row[mapping['vin'] || 'vin'] || '').trim();
     const noInvoice = String(row[mapping['no_invoice'] || 'no_invoice'] || '').trim();
     const tglInvoice = String(row[mapping['tanggal_invoice'] || 'tanggal_invoice'] || '').trim();
+    const rawTglEntry = row[mapping['tanggal_entry'] || 'tanggal_entry'] || row['tanggal_entry'] || row['tgl_entry'] || row['tanggal_masuk'];
 
     if (!vinRaw) {
       result.failed++;
@@ -201,7 +202,7 @@ export function validateAndProcessServiceCallImport(
       week: String(row[mapping['week'] || 'week'] || 'W1').trim(),
       cabang: String(row[mapping['cabang'] || 'cabang'] || 'Setiajaya Toyota Depok').trim(),
       service_advisor: String(row[mapping['service_advisor'] || 'service_advisor'] || '-').trim(),
-      tanggal_entry: formatToDDMMYYYY(row[mapping['tanggal_entry'] || 'tanggal_entry']),
+      tanggal_entry: rawTglEntry ? formatToDDMMYYYY(rawTglEntry) : (tglInvoice ? formatToDDMMYYYY(tglInvoice) : formatToDDMMYYYY(new Date())),
       call_id: String(row[mapping['call_id'] || 'call_id'] || `CALL-${index}`).trim(),
       kode_customer: String(row[mapping['kode_customer'] || 'kode_customer'] || '-').trim(),
       nama_customer: String(row[mapping['nama_customer'] || 'nama_customer'] || 'Customer').trim(),

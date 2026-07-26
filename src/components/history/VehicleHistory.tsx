@@ -44,7 +44,7 @@ export const VehicleHistory: React.FC<VehicleHistoryProps> = ({
           no_hp: s.no_hp || '',
           dealer: s.dealer_penjual || 'Setiajaya Depok',
           total_kunjungan: 0,
-          service_terakhir: s.tanggal_invoice || s.tanggal_entry || '',
+          service_terakhir: s.tanggal_entry || s.tanggal_invoice || '',
           last_km: s.km_service || 0,
           history: []
         };
@@ -53,11 +53,11 @@ export const VehicleHistory: React.FC<VehicleHistoryProps> = ({
       map[s.vin].total_kunjungan++;
       map[s.vin].history.push(s);
 
-      // Keep latest service date
-      const currentDate = parseAnyDate(s.tanggal_invoice || s.tanggal_entry) || new Date(0);
+      // Keep latest service date based on tanggal_entry
+      const currentDate = parseAnyDate(s.tanggal_entry || s.tanggal_invoice) || new Date(0);
       const latestDate = parseAnyDate(map[s.vin].service_terakhir) || new Date(0);
       if (currentDate > latestDate) {
-        map[s.vin].service_terakhir = s.tanggal_invoice || s.tanggal_entry || '';
+        map[s.vin].service_terakhir = s.tanggal_entry || s.tanggal_invoice || '';
         map[s.vin].last_km = s.km_service || 0;
         map[s.vin].no_polisi = s.no_polisi || map[s.vin].no_polisi;
       }

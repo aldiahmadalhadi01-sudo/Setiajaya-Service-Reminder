@@ -33,40 +33,70 @@ const MONTH_NAMES = [
   { value: 12, label: 'Desember', short: 'Des' }
 ];
 
+function getRecordEntryDate(s: ServiceCallRecord): string {
+  if (s.tanggal_entry && String(s.tanggal_entry).trim() !== '') {
+    return String(s.tanggal_entry).trim();
+  }
+  if (s.tanggal_invoice && String(s.tanggal_invoice).trim() !== '') {
+    return String(s.tanggal_invoice).trim();
+  }
+  if (s.tanggal_so && String(s.tanggal_so).trim() !== '') {
+    return String(s.tanggal_so).trim();
+  }
+  return '';
+}
+
 function parseDateString(dateStr: string | undefined | null): { year: number; month: number; day: number } | null {
   if (!dateStr) return null;
   const str = String(dateStr).trim();
   if (!str) return null;
 
-  // Format YYYY-MM-DD or YYYY/MM/DD
+  // 1. Handle Excel serial numbers (e.g. 45480)
+  if (/^\d{5}(\.\d+)?$/.test(str)) {
+    const num = parseFloat(str);
+    if (num > 25000 && num < 60000) {
+      const utc_days = Math.floor(num - 25569);
+      const utc_value = utc_days * 86400;
+      const date_info = new Date(utc_value * 1000);
+      if (!isNaN(date_info.getTime())) {
+        return {
+          year: date_info.getUTCFullYear(),
+          month: date_info.getUTCMonth() + 1,
+          day: date_info.getUTCDate()
+        };
+      }
+    }
+  }
+
+  // 2. Format YYYY-MM-DD or YYYY/MM/DD or ISO like 2026-07-20T00:00:00
   const ymd = str.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
   if (ymd) {
     const year = parseInt(ymd[1], 10);
     const month = parseInt(ymd[2], 10);
     const day = parseInt(ymd[3], 10);
-    if (!isNaN(year) && !isNaN(month) && !isNaN(day) && month >= 1 && month <= 12) {
+    if (!isNaN(year) && !isNaN(month) && !isNaN(day) && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
       return { year, month, day };
     }
   }
 
-  // Format DD-MM-YYYY or DD/MM/YYYY
+  // 3. Format DD-MM-YYYY or DD/MM/YYYY
   const dmy = str.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
   if (dmy) {
     const day = parseInt(dmy[1], 10);
     const month = parseInt(dmy[2], 10);
     const year = parseInt(dmy[3], 10);
-    if (!isNaN(year) && !isNaN(month) && !isNaN(day) && month >= 1 && month <= 12) {
+    if (!isNaN(year) && !isNaN(month) && !isNaN(day) && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
       return { year, month, day };
     }
   }
 
-  // JS Date fallback
+  // 4. JS Date fallback
   const d = new Date(str);
   if (!isNaN(d.getTime())) {
     return {
-      year: d.getFullYear(),
-      month: d.getMonth() + 1,
-      day: d.getDate()
+      year: d.getUTCFullYear(),
+      month: d.getUTCMonth() + 1,
+      day: d.getUTCDate()
     };
   }
 
@@ -104,14 +134,14 @@ export const TrendChart: React.FC<TrendChartProps> = ({
     if (propsSetPeriod) propsSetPeriod(p);
   };
 
-  // Extract available years from dataset
+  // Extract available years from dataset using tanggal_entry
   const availableYears = useMemo(() => {
     const yearsSet = new Set<number>();
     const currentYear = new Date().getFullYear();
     yearsSet.add(currentYear);
 
     serviceCallList.forEach((s) => {
-      const parsed = parseDateString(s.tanggal_entry || s.tanggal_invoice || s.tanggal_so);
+      const parsed = parseDateString(getRecordEntryDate(s));
       if (parsed) {
         yearsSet.add(parsed.year);
       }
@@ -120,18 +150,18 @@ export const TrendChart: React.FC<TrendChartProps> = ({
     return Array.from(yearsSet).sort((a, b) => b - a);
   }, [serviceCallList]);
 
-  // Determine latest year and month for initial filter state
+  // Determine latest year and month for initial filter state using tanggal_entry
   const latestDateInfo = useMemo(() => {
     let latestYr = new Date().getFullYear();
     let latestMo = new Date().getMonth() + 1;
     let maxTimestamp = 0;
 
     serviceCallList.forEach((s) => {
-      const dateStr = s.tanggal_entry || s.tanggal_invoice || s.tanggal_so;
+      const dateStr = getRecordEntryDate(s);
       if (!dateStr) return;
       const parsed = parseDateString(dateStr);
       if (parsed) {
-        const timeVal = new Date(parsed.year, parsed.month - 1, parsed.day).getTime();
+        const timeVal = Date.UTC(parsed.year, parsed.month - 1, parsed.day);
         if (timeVal > maxTimestamp) {
           maxTimestamp = timeVal;
           latestYr = parsed.year;
@@ -154,7 +184,7 @@ export const TrendChart: React.FC<TrendChartProps> = ({
     }
   }, [latestDateInfo.month, latestDateInfo.year, serviceCallList.length]);
 
-  // Compute filtered trend data
+  // Compute filtered trend data strictly from tanggal_entry
   const calculatedTrendData = useMemo<TrendDataPoint[]>(() => {
     if ((!serviceCallList || serviceCallList.length === 0) && propsData && propsData.length > 0) {
       return propsData;
@@ -166,7 +196,7 @@ export const TrendChart: React.FC<TrendChartProps> = ({
       const dailyCounts: Record<number, number> = {};
 
       serviceCallList.forEach((s) => {
-        const parsed = parseDateString(s.tanggal_entry || s.tanggal_invoice || s.tanggal_so);
+        const parsed = parseDateString(getRecordEntryDate(s));
         if (parsed && parsed.year === selectedYear && parsed.month === selectedMonth) {
           dailyCounts[parsed.day] = (dailyCounts[parsed.day] || 0) + 1;
         }
@@ -197,7 +227,7 @@ export const TrendChart: React.FC<TrendChartProps> = ({
       };
 
       serviceCallList.forEach((s) => {
-        const parsed = parseDateString(s.tanggal_entry || s.tanggal_invoice || s.tanggal_so);
+        const parsed = parseDateString(getRecordEntryDate(s));
         if (parsed && parsed.year === selectedYear && parsed.month === selectedMonth) {
           const w = normalizeWeek(s.week);
           if (w && weekCounts[w] !== undefined) {
@@ -218,7 +248,7 @@ export const TrendChart: React.FC<TrendChartProps> = ({
       for (let m = 1; m <= 12; m++) monthlyCounts[m] = 0;
 
       serviceCallList.forEach((s) => {
-        const parsed = parseDateString(s.tanggal_entry || s.tanggal_invoice || s.tanggal_so);
+        const parsed = parseDateString(getRecordEntryDate(s));
         if (parsed && parsed.year === selectedYear) {
           monthlyCounts[parsed.month] = (monthlyCounts[parsed.month] || 0) + 1;
         }

@@ -59,6 +59,7 @@ export const ServiceCallImportModal: React.FC<ServiceCallImportModalProps> = ({
       // Auto map key fields
       const autoMap: Record<string, string> = {
         vin: parsed.headers.find(h => /vin|rangka/i.test(h)) || 'vin',
+        tanggal_entry: parsed.headers.find(h => /tanggal_entry|tgl_entry|entry_date|tanggal_masuk|tgl_masuk/i.test(h)) || 'tanggal_entry',
         no_invoice: parsed.headers.find(h => /invoice|no_inv/i.test(h)) || 'no_invoice',
         tanggal_invoice: parsed.headers.find(h => /tanggal_invoice|tgl_inv/i.test(h)) || 'tanggal_invoice',
         nama_customer: parsed.headers.find(h => /nama_customer|customer/i.test(h)) || 'nama_customer',
@@ -245,6 +246,7 @@ export const ServiceCallImportModal: React.FC<ServiceCallImportModalProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
                   { key: 'vin', label: 'Nomor VIN (Rangka) *' },
+                  { key: 'tanggal_entry', label: 'Tanggal Entry Service *' },
                   { key: 'no_invoice', label: 'Nomor Invoice *' },
                   { key: 'tanggal_invoice', label: 'Tanggal Invoice *' },
                   { key: 'nama_customer', label: 'Nama Customer' },

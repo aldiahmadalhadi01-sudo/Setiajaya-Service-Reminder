@@ -31,8 +31,8 @@ export const ServiceTimeline: React.FC<ServiceTimelineProps> = ({
   onClose
 }) => {
   const sortedHistory = [...history].sort((a, b) => {
-    const dateA = (parseAnyDate(a.tanggal_invoice || a.tanggal_entry) || new Date(0)).getTime();
-    const dateB = (parseAnyDate(b.tanggal_invoice || b.tanggal_entry) || new Date(0)).getTime();
+    const dateA = (parseAnyDate(a.tanggal_entry || a.tanggal_invoice) || new Date(0)).getTime();
+    const dateB = (parseAnyDate(b.tanggal_entry || b.tanggal_invoice) || new Date(0)).getTime();
     return dateB - dateA; // Newest to oldest
   });
 
@@ -84,7 +84,7 @@ export const ServiceTimeline: React.FC<ServiceTimelineProps> = ({
             <span className="text-[10px] font-semibold text-slate-500 block">Service Terakhir</span>
             <span className="text-xs font-bold text-slate-800 truncate block mt-0.5">
               {sortedHistory.length > 0
-                ? formatDateIndonesian(sortedHistory[0].tanggal_invoice || sortedHistory[0].tanggal_entry)
+                ? formatDateIndonesian(sortedHistory[0].tanggal_entry || sortedHistory[0].tanggal_invoice)
                 : '-'}
             </span>
           </div>
@@ -115,7 +115,7 @@ export const ServiceTimeline: React.FC<ServiceTimelineProps> = ({
                       <Calendar size={13} />
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-slate-800">
-                      {formatDateIndonesian(item.tanggal_invoice || item.tanggal_entry)}
+                      {formatDateIndonesian(item.tanggal_entry || item.tanggal_invoice)}
                     </span>
                   </div>
 

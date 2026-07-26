@@ -4,6 +4,17 @@ export function parseAnyDate(dateInput: string | Date | null | undefined): Date 
   const str = String(dateInput).trim();
   if (!str) return null;
 
+  // Handle Excel serial number (e.g. 45480 or 44500)
+  if (/^\d{5}(\.\d+)?$/.test(str)) {
+    const num = parseFloat(str);
+    if (num > 25000 && num < 60000) {
+      const utc_days = Math.floor(num - 25569);
+      const utc_value = utc_days * 86400;
+      const d = new Date(utc_value * 1000);
+      if (!isNaN(d.getTime())) return d;
+    }
+  }
+
   // Format DD/MM/YYYY or DD-MM-YYYY
   const dmy = str.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
   if (dmy) {

@@ -23,8 +23,8 @@ export function calculateReminders(
     if (!existing) {
       latestServiceByVin[call.vin] = call;
     } else {
-      const existingDate = parseAnyDate(existing.tanggal_invoice || existing.tanggal_entry) || new Date(0);
-      const currentDate = parseAnyDate(call.tanggal_invoice || call.tanggal_entry) || new Date(0);
+      const existingDate = parseAnyDate(existing.tanggal_entry || existing.tanggal_invoice) || new Date(0);
+      const currentDate = parseAnyDate(call.tanggal_entry || call.tanggal_invoice) || new Date(0);
       if (currentDate > existingDate) {
         latestServiceByVin[call.vin] = call;
       }
@@ -54,7 +54,7 @@ export function calculateReminders(
       
       // If customer already serviced after or on this milestone, skip to next milestone
       if (latestSvc) {
-        const lastSvcDate = parseAnyDate(latestSvc.tanggal_invoice || latestSvc.tanggal_entry) || new Date(0);
+        const lastSvcDate = parseAnyDate(latestSvc.tanggal_entry || latestSvc.tanggal_invoice) || new Date(0);
         if (lastSvcDate >= mDate) {
           continue;
         }
@@ -90,7 +90,7 @@ export function calculateReminders(
     }
 
     const lastSvcDateStr = latestSvc
-      ? latestSvc.tanggal_invoice || latestSvc.tanggal_entry
+      ? latestSvc.tanggal_entry || latestSvc.tanggal_invoice
       : dec.tanggal_dec;
 
     const lastKm = latestSvc

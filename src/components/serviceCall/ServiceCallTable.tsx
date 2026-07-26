@@ -35,7 +35,7 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
   onOpenImport
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<keyof ServiceCallRecord>('tanggal_invoice');
+  const [sortField, setSortField] = useState<keyof ServiceCallRecord>('tanggal_entry');
   const [sortAsc, setSortAsc] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
@@ -171,8 +171,8 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
         <table className="w-full text-left text-xs border-collapse">
           <thead>
             <tr className="bg-slate-900 text-white font-extrabold uppercase tracking-wider">
-              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('tanggal_invoice')}>
-                <div className="flex items-center gap-1">Tgl Invoice <ArrowUpDown size={12} /></div>
+              <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('tanggal_entry')}>
+                <div className="flex items-center gap-1">Tgl Entry <ArrowUpDown size={12} /></div>
               </th>
               <th className="p-3.5 cursor-pointer hover:bg-slate-800" onClick={() => handleSort('no_invoice')}>
                 <div className="flex items-center gap-1">No Invoice <ArrowUpDown size={12} /></div>
@@ -207,7 +207,7 @@ export const ServiceCallTable: React.FC<ServiceCallTableProps> = ({
             ) : (
               paginatedData.map((row) => (
                 <tr key={row.id || row.no_invoice} className="hover:bg-slate-100/80 transition-colors">
-                  <td className="p-3.5 font-bold text-slate-900">{formatDateIndonesian(row.tanggal_invoice || row.tanggal_entry)}</td>
+                  <td className="p-3.5 font-bold text-slate-900">{formatDateIndonesian(row.tanggal_entry || row.tanggal_invoice)}</td>
                   <td className="p-3.5 font-mono font-black text-slate-950">{row.no_invoice}</td>
                   <td className="p-3.5 font-mono font-bold text-slate-900">{row.no_polisi}</td>
                   <td className="p-3.5 font-black text-slate-950">{row.nama_customer}</td>

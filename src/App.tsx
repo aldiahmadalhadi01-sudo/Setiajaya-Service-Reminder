@@ -111,7 +111,7 @@ export default function App() {
                   <RingAreaChart data={ringAreaDistribution} />
                 </div>
                 <div className="lg:col-span-7">
-                  <LeaderboardSA leaderboard={saLeaderboard} />
+                  <LeaderboardSA leaderboard={saLeaderboard} serviceCallList={serviceCallList} />
                 </div>
               </div>
             </div>
