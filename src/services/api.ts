@@ -252,12 +252,13 @@ export const apiService = {
     const current = await getLocalServiceCallData();
     let updated: ServiceCallRecord[];
 
-    if (duplicateMode === 'replace') {
+    const mode = (duplicateMode || '').toLowerCase();
+    if (mode === 'replace') {
       const map = new Map<string, ServiceCallRecord>();
       current.forEach(r => map.set(r.no_invoice || r.id, r));
       records.forEach(r => map.set(r.no_invoice || r.id, r));
       updated = Array.from(map.values());
-    } else if (duplicateMode === 'skip') {
+    } else if (mode === 'skip') {
       const existingKeys = new Set(current.map(r => r.no_invoice || r.id));
       const newRecs = records.filter(r => !existingKeys.has(r.no_invoice || r.id));
       updated = [...newRecs, ...current];

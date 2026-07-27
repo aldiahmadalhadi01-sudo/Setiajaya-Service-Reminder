@@ -1,21 +1,23 @@
-export function parseAnyDate(dateInput: string | Date | null | undefined): Date | null {
-  if (!dateInput) return null;
+export function parseAnyDate(dateInput: string | Date | number | null | undefined): Date | null {
+  if (dateInput === null || dateInput === undefined || dateInput === '') return null;
   if (dateInput instanceof Date) return isNaN(dateInput.getTime()) ? null : dateInput;
   const str = String(dateInput).trim();
   if (!str) return null;
 
   // Handle Excel serial number (e.g. 45480 or 44500)
-  if (/^\d{5}(\.\d+)?$/.test(str)) {
-    const num = parseFloat(str);
+  if (/^\d{5}(\.\d+)?$/.test(str) || typeof dateInput === 'number') {
+    const num = typeof dateInput === 'number' ? dateInput : parseFloat(str);
     if (num > 25000 && num < 60000) {
       const utc_days = Math.floor(num - 25569);
       const utc_value = utc_days * 86400;
       const d = new Date(utc_value * 1000);
-      if (!isNaN(d.getTime())) return d;
+      if (!isNaN(d.getTime())) {
+        return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+      }
     }
   }
 
-  // Format DD/MM/YYYY or DD-MM-YYYY
+  // Format DD/MM/YYYY, DD-MM-YYYY, or DD.MM.YYYY
   const dmy = str.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
   if (dmy) {
     const day = parseInt(dmy[1], 10);
@@ -25,7 +27,7 @@ export function parseAnyDate(dateInput: string | Date | null | undefined): Date 
     if (!isNaN(d.getTime())) return d;
   }
 
-  // Format YYYY-MM-DD or YYYY/MM/DD
+  // Format YYYY-MM-DD, YYYY/MM/DD, or ISO strings
   const ymd = str.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
   if (ymd) {
     const year = parseInt(ymd[1], 10);
@@ -37,21 +39,33 @@ export function parseAnyDate(dateInput: string | Date | null | undefined): Date 
 
   // Fallback
   const d = new Date(str);
-  return isNaN(d.getTime()) ? null : d;
+  if (!isNaN(d.getTime())) {
+    if (str.includes('Z') || str.includes('T')) {
+      return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate());
+    }
+    return d;
+  }
+  return null;
 }
 
-export function formatToDDMMYYYY(dateInput: string | Date | null | undefined): string {
-  if (!dateInput) {
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const year = now.getFullYear();
-    return `${day}/${month}/${year}`;
+export function formatToDDMMYYYY(dateInput: string | Date | number | null | undefined): string {
+  if (dateInput === null || dateInput === undefined || dateInput === '') {
+    return '';
   }
 
   const str = String(dateInput).trim();
+  if (!str) return '';
+
   if (/^\d{2}\/\d{2}\/\d{4}$/.test(str)) {
     return str;
+  }
+
+  const dmySingle = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (dmySingle) {
+    const day = String(parseInt(dmySingle[1], 10)).padStart(2, '0');
+    const month = String(parseInt(dmySingle[2], 10)).padStart(2, '0');
+    const year = dmySingle[3];
+    return `${day}/${month}/${year}`;
   }
 
   const parsed = parseAnyDate(dateInput);

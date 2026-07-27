@@ -58,15 +58,20 @@ export const ServiceCallImportModal: React.FC<ServiceCallImportModalProps> = ({
 
       // Auto map key fields
       const autoMap: Record<string, string> = {
-        vin: parsed.headers.find(h => /vin|rangka/i.test(h)) || 'vin',
-        tanggal_entry: parsed.headers.find(h => /tanggal_entry|tgl_entry|entry_date|tanggal_masuk|tgl_masuk/i.test(h)) || 'tanggal_entry',
-        no_invoice: parsed.headers.find(h => /invoice|no_inv/i.test(h)) || 'no_invoice',
-        tanggal_invoice: parsed.headers.find(h => /tanggal_invoice|tgl_inv/i.test(h)) || 'tanggal_invoice',
-        nama_customer: parsed.headers.find(h => /nama_customer|customer/i.test(h)) || 'nama_customer',
-        no_polisi: parsed.headers.find(h => /no_polisi|nopol/i.test(h)) || 'no_polisi',
-        tipe_kendaraan: parsed.headers.find(h => /tipe_kendaraan|model/i.test(h)) || 'tipe_kendaraan',
-        km_service: parsed.headers.find(h => /km_service|km/i.test(h)) || 'km_service',
-        service_advisor: parsed.headers.find(h => /service_advisor|sa/i.test(h)) || 'service_advisor'
+        vin: parsed.headers.find(h => /vin|rangka|chassis|frame/i.test(h)) || 'vin',
+        tanggal_entry: parsed.headers.find(h => /tanggal[\s._]*entry|tgl[\s._]*entry|entry[\s._]*date|tanggal[\s._]*masuk|tgl[\s._]*masuk|tanggal[\s._]*service|tgl[\s._]*service/i.test(h)) || parsed.headers.find(h => /tanggal|tgl/i.test(h)) || 'tanggal_entry',
+        no_invoice: parsed.headers.find(h => /invoice|no[\s._]*inv/i.test(h)) || 'no_invoice',
+        tanggal_invoice: parsed.headers.find(h => /tanggal[\s._]*invoice|tgl[\s._]*inv|invoice[\s._]*date/i.test(h)) || 'tanggal_invoice',
+        nama_customer: parsed.headers.find(h => {
+          const norm = h.toLowerCase();
+          if (/kode|code|id\b|no\b/i.test(norm)) return false;
+          return /nama[\s._]*customer|nama[\s._]*cust|customer[\s._]*name|nama[\s._]*pelanggan|nama|customer/i.test(norm);
+        }) || 'nama_customer',
+        kode_customer: parsed.headers.find(h => /kode[\s._]*customer|kode[\s._]*cust|cust[\s._]*code|id[\s._]*customer/i.test(h)) || 'kode_customer',
+        no_polisi: parsed.headers.find(h => /no[\s._]*polisi|nopol|no[\s._]*pol/i.test(h)) || 'no_polisi',
+        tipe_kendaraan: parsed.headers.find(h => /tipe[\s._]*kendaraan|tipe|model|deskripsi/i.test(h)) || 'tipe_kendaraan',
+        km_service: parsed.headers.find(h => /km[\s._]*service|km/i.test(h)) || 'km_service',
+        service_advisor: parsed.headers.find(h => /service[\s._]*advisor|sa\b|advisor/i.test(h)) || 'service_advisor'
       };
       setMapping(autoMap);
       setStep(1);
@@ -74,6 +79,26 @@ export const ServiceCallImportModal: React.FC<ServiceCallImportModalProps> = ({
       Swal.fire({
         icon: 'error',
         title: 'Gagal Membaca File',
+        text: err.message,
+        confirmButtonColor: '#001E50'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSheetChange = async (sheetName: string) => {
+    if (!file) return;
+    try {
+      setLoading(true);
+      setSelectedSheet(sheetName);
+      const parsed = await parseSheetDataByName(file, sheetName);
+      setHeaders(parsed.headers);
+      setRows(parsed.rows);
+    } catch (err: any) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Gagal Memuat Sheet',
         text: err.message,
         confirmButtonColor: '#001E50'
       });
@@ -196,11 +221,56 @@ export const ServiceCallImportModal: React.FC<ServiceCallImportModalProps> = ({
                       <div>
                         <div className="text-xs font-bold text-slate-900">{file.name}</div>
                         <div className="text-[11px] text-slate-500">
-                          {rows.length} Baris terdeteksi
+                          {(file.size / 1024).toFixed(1)} KB • {rows.length} Baris terdeteksi
                         </div>
                       </div>
                     </div>
+
+                    {/* Sheet Selector if multi-sheet Excel */}
+                    {sheets.length > 1 && (
+                      <div className="flex items-center gap-2">
+                        <Layers size={14} className="text-slate-400" />
+                        <select
+                          value={selectedSheet}
+                          onChange={(e) => handleSheetChange(e.target.value)}
+                          className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold bg-white cursor-pointer"
+                        >
+                          {sheets.map((s) => (
+                            <option key={s} value={s}>{s}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
                   </div>
+
+                  {/* Table Preview */}
+                  {rows.length > 0 && (
+                    <div>
+                      <h5 className="text-xs font-bold text-slate-700 mb-2">
+                        Pratinjau Data File (5 Baris Pertama)
+                      </h5>
+                      <div className="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table className="w-full text-left text-xs">
+                          <thead>
+                            <tr className="bg-slate-100 font-bold border-b border-slate-200">
+                              {headers.map((h, i) => (
+                                <th key={i} className="p-2.5 whitespace-nowrap">{h}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rows.slice(0, 5).map((row, i) => (
+                              <tr key={i} className="border-b border-slate-100 hover:bg-slate-50">
+                                {headers.map((h, j) => (
+                                  <td key={j} className="p-2.5 whitespace-nowrap">{row[h] || '-'}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Duplicate Mode Option */}
                   <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 space-y-2">
@@ -250,6 +320,7 @@ export const ServiceCallImportModal: React.FC<ServiceCallImportModalProps> = ({
                   { key: 'no_invoice', label: 'Nomor Invoice *' },
                   { key: 'tanggal_invoice', label: 'Tanggal Invoice *' },
                   { key: 'nama_customer', label: 'Nama Customer' },
+                  { key: 'kode_customer', label: 'Kode Customer' },
                   { key: 'no_polisi', label: 'Nomor Polisi' },
                   { key: 'tipe_kendaraan', label: 'Tipe Kendaraan' },
                   { key: 'km_service', label: 'KM Service' },

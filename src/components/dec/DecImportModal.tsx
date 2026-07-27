@@ -55,12 +55,16 @@ export const DecImportModal: React.FC<DecImportModalProps> = ({
       // Auto header mapping
       const autoMap: Record<string, string> = {
         bulan: parsed.headers.find(h => /bulan/i.test(h)) || 'bulan',
-        tanggal_dec: parsed.headers.find(h => /tanggal_dec|tgl_dec|dec_date/i.test(h)) || 'tanggal_dec',
-        nama_customer: parsed.headers.find(h => /nama_customer|customer|nama/i.test(h)) || 'nama_customer',
+        tanggal_dec: parsed.headers.find(h => /tanggal[\s._]*dec|tgl[\s._]*dec|dec[\s._]*date/i.test(h)) || parsed.headers.find(h => /tanggal|tgl/i.test(h)) || 'tanggal_dec',
+        nama_customer: parsed.headers.find(h => {
+          const norm = h.toLowerCase();
+          if (/kode|code|id\b|no\b/i.test(norm)) return false;
+          return /nama[\s._]*customer|nama[\s._]*cust|customer[\s._]*name|nama[\s._]*pelanggan|nama|customer/i.test(norm);
+        }) || 'nama_customer',
         payment: parsed.headers.find(h => /payment|pembayaran/i.test(h)) || 'payment',
         phone_customer: parsed.headers.find(h => /phone|hp|wa|telepon/i.test(h)) || 'phone_customer',
         tipe_kendaraan: parsed.headers.find(h => /tipe|kendaraan|model/i.test(h)) || 'tipe_kendaraan',
-        vin: parsed.headers.find(h => /vin|rangka|chassis/i.test(h)) || 'vin',
+        vin: parsed.headers.find(h => /vin|rangka|chassis|frame/i.test(h)) || 'vin',
         sales: parsed.headers.find(h => /sales|wiraniaga/i.test(h)) || 'sales',
         alamat: parsed.headers.find(h => /alamat|domisili/i.test(h)) || 'alamat',
         kota: parsed.headers.find(h => /kota|kabupaten/i.test(h)) || 'kota'
@@ -235,7 +239,7 @@ export const DecImportModal: React.FC<DecImportModalProps> = ({
                         <thead>
                           <tr className="bg-slate-100 font-bold border-b border-slate-200">
                             {headers.map((h, i) => (
-                              <th key={i} className="p-2.5">{h}</th>
+                              <th key={i} className="p-2.5 whitespace-nowrap">{h}</th>
                             ))}
                           </tr>
                         </thead>
@@ -243,7 +247,7 @@ export const DecImportModal: React.FC<DecImportModalProps> = ({
                           {rows.slice(0, 5).map((row, i) => (
                             <tr key={i} className="border-b border-slate-100 hover:bg-slate-50">
                               {headers.map((h, j) => (
-                                <td key={j} className="p-2.5">{row[h] || '-'}</td>
+                                <td key={j} className="p-2.5 whitespace-nowrap">{row[h] || '-'}</td>
                               ))}
                             </tr>
                           ))}
